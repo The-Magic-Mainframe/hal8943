@@ -10,7 +10,7 @@ body {
   background-color: rgba(0, 0, 0, 0.8);
   border-left: 1px dashed white;
   border-right: 1px dashed white;
-  margin-left: auto;
-  margin-right: auto;
+  height: 100%;
+  margin: auto;
   max-width: 800px;
 }
