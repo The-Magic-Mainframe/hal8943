@@ -44,20 +44,32 @@ body {
   justify-content: center;
 }
 
-a:link {
+a:link, a:visited {
   color: cyan;
 }
 
-a:visited {
-  color: #FF00FF;
+#footer a:link, #footer a:visited {
+  color: pink;
 }
 
-a:hover {
-  color: red;
+a:focus, a:hover {
+  color: yellow;
+  outline: 1px solid yellow;
+}
+
+#footer a:focus, #footer a:hover {
+  color: yellow;
+  outline: 1px solid yellow;
 }
 
 a:active {
-  color: yellow;
+  color: red;
+  outline: 1px solid red;
+}
+
+#footer a:active {
+  color: red;
+  outline: 1px solid red;
 }
 
 h1, h2, h3, h4, h5, p {
