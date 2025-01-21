@@ -1,5 +1,5 @@
 html {
-  height: 100%;
+  min-height: 100%;
 }
 
 body {
@@ -7,9 +7,9 @@ body {
   background-size: cover;
   color: #6EBBFF;
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
   font-family: monospace;
-  height: 100%;
+  min-height: 100%;
   padding: 0px;
   margin: 0px;
 }
@@ -19,8 +19,8 @@ body {
   border-left: 1px dashed white;
   border-right: 1px dashed white;
   display: flex;
-  flex-flow: column wrap;
-  height: 100%;
+  flex-flow: column nowrap;
+  min-height: 100%;
   margin: 0px;
   margin-left: auto;
   margin-right: auto;
@@ -34,9 +34,9 @@ body {
 #main {
   align-items: center;
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
   flex: 1;
-  height: 100%;
+  gap: 5px;
 }
 
 #footer {
@@ -89,6 +89,10 @@ label {
   color: white;
 }
 
+iframe {
+  border: 1px solid grey;
+}
+
 input {
   background-color: black;
   border: 0px;
@@ -107,7 +111,7 @@ input:active, input:focus {
 
 h1, h2, h3, h4, h5, p {
   margin: 0px;
-  padding: 0px 0px 5px 0px;
+  padding: 5px 0px 0px 0px;
 }
 
 em {
