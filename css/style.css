@@ -5,9 +5,9 @@ html {
 body {
   background: black url("../jpg/me_sunset.jpg") no-repeat fixed center;
   background-size: cover;
-  color: white;
+  color: #6EBBFF;
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: column wrap;
   font-family: monospace;
   height: 100%;
   padding: 0px;
@@ -15,23 +15,26 @@ body {
 }
 
 #content {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.9);
   border-left: 1px dashed white;
   border-right: 1px dashed white;
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: column wrap;
   height: 100%;
   margin: 0px;
   margin-left: auto;
   margin-right: auto;
-  max-width: 800px;
-  padding: 5px;
+  padding: 5px 10px;
+  max-width: 600px;
 }
 
 #header {
 }
 
 #main {
+  align-items: center;
+  display: flex;
+  flex-flow: column wrap;
   flex: 1;
   height: 100%;
 }
@@ -40,8 +43,18 @@ body {
   color: #FFA0A0;
   display: flex;
   flex-flow: row wrap;
-  font-size: 0.6em;
+  font-size: 0.8em;
   justify-content: center;
+}
+
+.row {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.column {
+  display: flex;
+  flex-flow: column wrap;
 }
 
 a:link, a:visited {
@@ -72,7 +85,38 @@ a:active {
   outline: 1px solid red;
 }
 
+label {
+  color: white;
+}
+
+input {
+  background-color: black;
+  border: 0px;
+  color: red;
+  margin: 0px 5px;
+  outline: 1px solid gray;
+}
+
+input:hover {
+  outline: 1px solid yellow;
+}
+
+input:active, input:focus {
+  outline: 1px solid red;
+}
+
 h1, h2, h3, h4, h5, p {
   margin: 0px;
   padding: 0px 0px 5px 0px;
+}
+
+em {
+  color: white;
+  font-style: normal;
+}
+
+.rainbow {
+  background: linear-gradient(to right, #ef5350, #f48fb1, #7e57c2, #2196f3, #26c6da, #43a047, #eeff41, #f9a825, #ff5722);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
