@@ -1,7 +1,9 @@
 body {
-  background-color: cyan;
+  background: black url("../jpg/me_sunset.jpg") no-repeat fixed;
+  background-size: cover;
   color: white;
   display: flex;
+  flex-flow: column wrap;
   font-family: monospace;
   height: 100%;
   padding: 0px;
@@ -13,14 +15,46 @@ body {
   border-left: 1px dashed white;
   border-right: 1px dashed white;
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: column wrap;
   height: 100%;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
   max-width: 800px;
   padding: 10px;
 }
 
+#header {
+}
+
+#main {
+  flex: 1;
+}
+
+#footer {
+  color: #FFA0A0;
+  display: flex;
+  flex-flow: row wrap;
+  font-size: 0.6em;
+  justify-content: center;
+}
+
+a:link {
+  color: cyan;
+}
+
+a:visited {
+  color: #FF00FF;
+}
+
+a:hover {
+  color: red;
+}
+
+a:active {
+  color: yellow;
+}
+
 h1, h2, h3, h4, h5, p {
   margin: 0px;
-  padding: 0px;
+  padding: 0px 0px 5px 0px;
 }
