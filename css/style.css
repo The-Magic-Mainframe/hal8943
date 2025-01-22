@@ -6,24 +6,21 @@ body {
   background: black url("../jpg/me_sunset.jpg") no-repeat fixed center;
   background-size: cover;
   color: #6EBBFF;
-  display: flex;
-  flex-flow: column nowrap;
   font-family: monospace;
   min-height: 100%;
+  overflow-wrap: break-word;
   padding: 0px;
   margin: 0px;
 }
 
 #content {
   background-color: rgba(0, 0, 0, 0.9);
-  border-left: 1px dashed white;
-  border-right: 1px dashed white;
+  border-left: 1px solid gray;
+  border-right: 1px solid gray;
   display: flex;
   flex-flow: column nowrap;
   min-height: 100%;
-  margin: 0px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0px auto;
   padding: 5px 10px;
   max-width: 600px;
 }
@@ -36,7 +33,6 @@ body {
   display: flex;
   flex-flow: column nowrap;
   flex: 1;
-  gap: 5px;
 }
 
 #footer {
@@ -97,7 +93,7 @@ input {
   background-color: black;
   border: 0px;
   color: red;
-  margin: 0px 5px;
+  margin: 0px 0px 5px 5px;
   outline: 1px solid gray;
 }
 
@@ -110,8 +106,7 @@ input:active, input:focus {
 }
 
 h1, h2, h3, h4, h5, p {
-  margin: 0px;
-  padding: 5px 0px 0px 0px;
+
 }
 
 em {
