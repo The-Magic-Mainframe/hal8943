@@ -1,0 +1,301 @@
+FULLER   TITLE 'FULLER - A SPOOL archival tool for z/OS - PROLOG'
+***********************************************************************
+*                                                                     *
+* MODULE NAME = FULLER                                                *
+*                                                                     *
+* DESCRIPTIVE NAME = A SPOOL archival tool for z/OS.                  *
+*                                                                     *
+* STATUS = z/OS                                                       *
+*                                                                     *
+* FUNCTION = A SPOOL archival tool for z/OS.                          *
+*                                                                     *
+* NOTES =                                                             *
+*                                                                     *
+*    DEPENDENCIES = Standard MVS services                             *
+*                                                                     *
+*    RESTRICTIONS = None                                              *
+*                                                                     *
+*    REGISTER CONVENTIONS = See entry point documentation             *
+*                                                                     *
+*    PATCH LABEL = None                                               *
+*                                                                     *
+* MODULE TYPE = Procedure ( RSECT Type )                              *
+*                                                                     *
+*    PROCESSOR = IBM High Level Assembler/MVS 1.6.0                   *
+*                                                                     *
+*    MODULE SIZE = See MODLEN equate                                  *
+*                                                                     *
+*    ATTRIBUTES = Reentrant, RMODE ANY, AMODE 31                      *
+*                                                                     *
+* ENTRY POINT =                                                       *
+*                                                                     *
+*    PURPOSE = See function                                           *
+*                                                                     *
+*    LINKAGE = See entry point documentation                          *
+*                                                                     *
+*    INPUT = See entry point documentation                            *
+*                                                                     *
+*    OUTPUT = See entry point documentation                           *
+*                                                                     *
+*    EXIT-NORMAL = See entry point documentation                      *
+*                                                                     *
+*    EXIT-ERROR = See entry point documentation                       *
+*                                                                     *
+* EXTERNAL REFERENCES                                                 *
+*                                                                     *
+*    ROUTINES = None                                                  *
+*                                                                     *
+*    DATA AREAS = See WORKAREA definition                             *
+*                                                                     *
+*    CONTROL BLOCKS = None                                            *
+*                                                                     *
+* MACROS = MVS  -                                                     *
+*                                                                     *
+* CHANGE ACTIVITY                                                     *
+*                                                                     *
+* A000000-999999     Created for z/OS Release 3.1                     *
+*                                                                     *
+***********************************************************************
+         SPACE 1
+FULLER   RSECT ,                   A fuller SPOOL archiver
+FULLER   AMODE 31                  31-bit addressing
+FULLER   RMODE ANY                 Module can be anywhere (24-bit or   C
+                                    31-bit)
+         TITLE 'FULLER - Main entry point'
+         SPACE 1
+*---------------------------------------------------------------------*
+*        Main entry point.                                            *
+*---------------------------------------------------------------------*
+         SPACE 1
+*        ENTRY                     Define entry point
+         SPACE 1
+         J     START               Skip around module identification
+         SPACE 1
+         DC    CL8'FULLER'         Module name 
+         DC    CL8'&SYSDATE'       Assembly date
+         DC    CL5'&SYSTIME'       Assembly time
+         DC    AL3(MODLEN)         Length of module
+         SPACE 1
+         USING *,R12               Establish local base register
+         USING WORKAREA,R10        Local work area
+         SPACE 1
+START    STM   R14,R12,12(R13)     Save caller's registers
+         SPACE 1
+         LARL  R12,START           Set local base register
+         LHI   R10,0               No work area, yet!
+         TITLE 'FULLER - Main line - Get a work area'
+         SPACE 1
+*---------------------------------------------------------------------*
+*        Get storage for local work area.                             *
+*---------------------------------------------------------------------*
+         SPACE 1
+         LHI   R0,WORKSIZE         Get size of work area
+         STORAGE OBTAIN,           Obtain storage for local work area  C
+               LENGTH=(0),           Size of work area in bytes        C
+               ADDR=(10),            Place address in R10              C
+               LOC=(31,64),          31-bit virtual, backed anywhere   C
+               COND=YES,             Do not abend on error             C
+               CHECKZERO=YES         Set RC if storage is not zeroes
+         CLIJE R15,20,GOTSTORE     Skip clear if already zeroes
+         CLIJNE R15,0,ERROR12      Skip everything if any other error
+         SPACE 1
+GOTSTORE XC    WORKAREA(256),WORKAREA         Clear first 256 bytes
+         XC    WORKAREA+256(256),WORKAREA+256  Clear next 256 bytes
+         XC    WORKAREA+512(256),WORKAREA+512  Clear next 256 bytes
+         XC    WORKAREA+768(256),WORKAREA+768  Clear last 256 bytes
+         SPACE 1
+         MVC   WORKEYE,=C'FWRK'    Set eye catcher
+         MVHHI WORKLEN,WORKSIZE    Set length of work area
+         SPACE 1
+         LA    R1,SAVEAREA         Get address of our save area
+         ST    R13,4(,R1)          Save address of caller's save area 
+         ST    R1,8(,R13)          Save address of our save area
+         LR    R13,R1              Use our save area
+         TITLE 'FULLER - Main line - Fill out DYNALLOC (SVC99) parmlistC
+               '
+*---------------------------------------------------------------------*
+*        Fill out DYNALLOC (SVC99) parmlist.                          *
+*---------------------------------------------------------------------*
+         SPACE 1
+RB       USING S99RB,DYNPARM       Establish S99RB addressability
+RX       USING S99RBX,DYNPARMX     Establish S99RBX addressability
+         SPACE 1
+         MVI   RB.S99RBLN,L'DYNPARM  Set length of request block
+         MVI   RB.S99VERB,S99VRBAL Indicate allocation request
+         LA    R1,DYNTULST         Get address of text unit pointers
+         ST    R1,RB.S99TXTPP        and set in request block
+         LA    R1,DYNPARMX         Get address of extension
+         ST    R1,RB.S99S99X         set in request block
+         SPACE 1
+         MVC   RX.S99EID,=C'S99RBX'  Set extension eye catcher
+         MVI   RX.S99EVER,S99RBXVR   Set current version
+         OI    RX.S99EOPTS,S99EIMSG+S99EWTP  Issue WTO with info msg
+         EJECT ,
+*---------------------------------------------------------------------*
+*        Setup DDNAME specification text unit.                        *
+*---------------------------------------------------------------------*
+         SPACE 1
+TU       USING S99TUNIT,R3         Establish S99TUNIT addressability         
+         SPACE 1
+         LA    R3,DYNT1KEY         Get address of 1st text unit
+         ST    R3,DYNT1PTR         Set address in text unit list
+         MVHI  TU.S99TUKEY,DALDDNAM  Indicate data definition name spec
+         MVHI  TU.S99TUNUM,1       Set count of 1
+         MVHI  TU.S99TULNG,8       Maximum length of a DDNAME
+         MVC   TU.S99TUPAR(8),=CL8'SYSYUT1'  Use this DDNAME
+         SPACE 1
+*---------------------------------------------------------------------*
+*        Setup DSNAME specification text unit.                        *
+*---------------------------------------------------------------------*
+         SPACE 1
+         LA    R3,DYNT2KEY         Get address of 2nd text unit
+         ST    R3,DYNT2PTR         Set address in text unit list
+         MVHI  TU.S99TUKEY,DALDSNAM  Indicate data set name spec
+         MVHI  TU.S99TUNUM,1       Set count of 1
+         MVHI  TU.S99TULNG,L'TESTDSN  Set length of data set name
+         MVC   TU.S99TUPAR(L'TESTDSN),TESTDSN  Set test data set name
+         SPACE 1
+*---------------------------------------------------------------------*
+*        Setup data set disposition text unit.                        *
+*---------------------------------------------------------------------*
+         SPACE 1
+         LA    R3,DYNT3KEY         Get address of 3rd text unit
+         ST    R3,DYNT3PTR         Set address in text unit list
+         MVHI  TU.S99TUKEY,DALSTATS  Indicate data set disposition spec
+         MVHI  TU.S99TUNUM,1       Set count of 1
+         MVHI  TU.S99TULNG,1       Maximum length of a DDNAME
+         MVC   TU.S99TUPAR(8),=CL8'SYSYUT1'  Use this DDNAME
+         SPACE 1
+*---------------------------------------------------------------------*
+*        Request DDNAME of SYSUT1 using a DALDDNAM text unit.         *
+*---------------------------------------------------------------------*
+         SPACE 1
+         LA    R3,DYNT4KEY         Get address of 4th text unit
+         OILH  R3,X'8000'          Indicate last text unit
+         ST    R3,DYNT4PTR         Set address in text unit list
+         MVHI  TU.S99TUKEY,DALUASSR  Indicate subsys name specification
+         MVHI  TU.S99TUNUM,1       Set count of 1
+         MVHI  TU.S99TULNG,4       Length of subsystem name  
+         MVC   TU.S99TUPAR(4),=CL4'JES2'  Set subsystem name
+         SPACE 1
+         DROP  TU                  Drop S99TUNIT
+         EJECT ,
+*---------------------------------------------------------------------*
+*        Invoke DYNALLOC.                                             *
+*---------------------------------------------------------------------*
+         SPACE 1
+         LA    R1,DYNPARM          Get address of SVC99 parms
+         OILH  R1,X'8000'          Set high-order bit
+         ST    R1,DYNPARM@         Store in work area
+         LA    R1,DYNPARM@         Get address of pointer
+         SPACE 1
+*        ST    0,0(0)              Boom
+         DYNALLOC ,                Invoke dynamic allocation
+         SPACE 1
+         DROP  RB,RX               Drop SVC99 request block and ext
+         TITLE 'FULLER - Main line - Return to caller'
+         SPACE 1
+*---------------------------------------------------------------------*
+*        Return to caller after freeing work area.                    *
+*---------------------------------------------------------------------*
+         SPACE 1
+         L     R13,4(,R13)         Restore addr of caller's save area
+         SPACE 1
+         LHI   R0,WORKSIZE         Get size of work area
+         STORAGE RELEASE,          Release local work area             C
+               LENGTH=(0),           Size of work area in bytes        C
+               ADDR=(10)             Address of work area is in R10
+         SPACE 1
+         LM    R14,R12,12(R13)     Restore caller's registers
+         LHI   R15,0               Indicate success
+         J     RETURN              Return
+         SPACE 1
+ERROR12  LM    R14,R12,12(R13)     Restore caller's registers
+         LHI   R15,12              Indicate storage failure
+         SPACE 1
+RETURN   BR    R14                 Return to caller
+         SPACE 1
+         DROP  R10,R12             Drop work area, local base
+         SPACE 1
+         LTORG ,                   Place literals here
+         SPACE  1
+TESTDSN  DC    C'NAB.FULLER.JOB07109.D0000002.JESMSGLG'  Test DSNAME
+         TITLE 'FULLER - Data areas and equates'         
+         SPACE 1
+*---------------------------------------------------------------------*
+*        Data areas and equates.                                      *
+*---------------------------------------------------------------------*
+         SPACE 1
+         IAZBTOKP ,                JES common SPOOL browse token
+         IEFZB4D0 ,                MVS DYNALLOC (SVC 99) parmlist 
+         IEFZB4D2 ,                MVS DYNALLOC (SVC 99) text unit keys
+         IFGACB ,                  MVS Access Control Block
+         IFGRPL ,                  MVS Request Parmlist
+         SPACE 1
+WORKAREA DSECT ,                   Define local work area
+WORKEYE  DS    CL4                 Eye catcher
+WORKLEN  DS    H                   Length of work area
+         DS    H                   Reserved
+         SPACE 1
+DYNPARM@ DS    A                   Address of parmlist
+DYNPARM  DS    XL(S99RBEND-S99RB)  Space for SVC99 request block
+         DS    0F                  Alignment
+DYNPARMX DS    XL(S99RBXLN)        Space for SVC99 extension
+         DS    0F                  Alignment
+         SPACE 1
+DYNTULST DS    0A                  Text unit pointer list
+DYNT1PTR DS    A                     1st text unit pointer
+DYNT2PTR DS    A                     2nd text unit pointer
+DYNT3PTR DS    A                     3rd text unit pointer
+DYNT4PTR DS    A                     4th text unit pointer
+         SPACE 1
+DYNT1KEY DS    XL2                 DD name text unit (DALDDNAM)
+DYNT1NUM DS    H                     Number of DDNAMEs
+DYNT1LNG DS    H                     Length of DDNAME
+DYNT1PAR DS    CL8                   Value of DDNAME
+DYNT2KEY DS    XL2                 Data set name TU (DALDSNAM)
+DYNT2NUM DS    H                     Number of DSNAMEs
+DYNT2LNG DS    H                     Length of DSNAME
+DYNT2PAR DS    CL44                  Value of DSNAME
+DYNT3KEY DS    XL2                 Data set disp TU (DALSTATS)
+DYNT3NUM DS    H                     Number of statuses
+DYNT3LNG DS    H                     Length of status
+DYNT3PAR DS    XL1                   Desired data set status
+         DS    XL1                   Alignment
+DYNT4KEY DS    XL2                 Subsystem name TU (DALUASSR)
+DYNT4NUM DS    H                     Number of subsystem names
+DYNT4LNG DS    H                     Length of subsystem name
+DYNT4PAR DS    CL4                   Value of subsystem name
+         SPACE 1
+SAVEAREA DS    18F                 Standard save area
+         DS    0D                  End of work area
+*ORKSIZE EQU   *-WORKAREA          Size of work area
+WORKSIZE EQU   4096                TODO: Remove me
+         SPACE 1
+FULLER   RSECT ,                   Re-establish code section
+         SPACE 1
+R0       EQU   0,,,,GR             Define register 0
+R1       EQU   1,,,,GR             Define register 1
+R2       EQU   2,,,,GR             Define register 2
+R3       EQU   3,,,,GR             Define register 3
+R4       EQU   4,,,,GR             Define register 4
+R5       EQU   5,,,,GR             Define register 5
+R6       EQU   6,,,,GR             Define register 6
+R7       EQU   7,,,,GR             Define register 7
+R8       EQU   8,,,,GR             Define register 8
+R9       EQU   9,,,,GR             Define register 9
+R10      EQU   10,,,,GR            Define register 10
+R11      EQU   11,,,,GR            Define register 11
+R12      EQU   12,,,,GR            Define register 12
+R13      EQU   13,,,,GR            Define register 13
+R14      EQU   14,,,,GR            Define register 14
+R15      EQU   15,,,,GR            Define register 15
+         TITLE 'FULLER - Module end'                     
+*---------------------------------------------------------------------*
+*        Module end.                                                  *
+*---------------------------------------------------------------------*
+         SPACE 1
+FULLER   LOCTR ,                   Ensure at true module end
+MODLEN   EQU   *-FULLER            Length of module
+         SPACE 1
+         END   ,                   End of module
