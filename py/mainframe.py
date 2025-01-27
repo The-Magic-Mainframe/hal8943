@@ -22,4 +22,6 @@ while 1:
     print(c, end='', flush=True)
     r = random.randint(1, 12)
     time.sleep(r / 360.0)
+  r = random.randint(1, 12)
+  time.sleep(r / 6.0)
   print()
