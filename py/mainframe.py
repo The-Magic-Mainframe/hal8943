@@ -3,6 +3,16 @@
 mainframe.py
 
 This is a silly script that we made on stream one day.
+
+Today I have enhanced it! I feel like I am hallucinating about something.
+
+I think that I was banned from the CBT discord server. I'm really worried about opening up discord in my web browser right now.
+
+Actually, I just remembered that I installed the discord app on stream the other night. Let's use that.
+
+Yep. They removed me from both the CBT and the SZE discord servers.
+
+This is really, really depressing.
 """
 import random
 import time
