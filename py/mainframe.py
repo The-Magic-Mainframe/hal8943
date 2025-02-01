@@ -18,7 +18,7 @@ import random
 import time
 
 # choices
-h = ('alive!',) * 10 + ('dead.',) * 100
+h = ('alive!',) * 10 + ('dead.',) * 100 + ('grapes.',) * 666
 
 # loop forever
 while 1:
