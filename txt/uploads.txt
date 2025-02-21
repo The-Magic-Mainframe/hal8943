@@ -1,21 +1,91 @@
-*00
-*01
-*02
-*03
-*14
-*15
-*37
-*2C
+*00 How Do I OBS
+*01 First Stream
+*02 Second Stream
+*03 The First Stream With Working Audio
+04 SVE Discord And Firefox Under WSL
+05
+06
+07
+08
+09
+0A
+0B
+0C
+0D
+0E
+0F
+10
+11
+12
+13
+*14 A Fuller SPOOL Archiver
+*15 Inteview
+16
+17
+18
+19
+1A
+1B
+1C
+1D
+1E
+1F
+20
+21
+22
+23
+24
+25
+26
+27
+28
 *29
-*39
-*40
-*41
-*42
-*43
-*44
-*45
-*4A
-*4B
-*4C
-*4E
-*54
+2A
+2B
+*2C I Just Had An Idea
+2D
+2E
+2F
+30
+31
+32
+33
+34
+35
+36
+*37 Dawn Of The First Day
+38
+*39 Checking Out ZXplore
+3A
+3B
+3C
+3D
+3E
+3F
+*40 Watch A Noob Play Factorio
+*41 Making Some Calls
+*42 Railroad Tycoon 3
+*43 Factorio
+*44 Watch My Creative Process
+*45 Play Chess
+46
+47
+48
+49
+*4A Another Creative Process
+*4B PF Keys
+*4C JES2ANDJES3SONG.MP4
+4D
+*4E Play Civ 7
+4F
+50
+51
+52
+53
+*54 SHARE Webinar
+55 Upload A Youtube Video
+*56 Do A Reddit AMA
+57
+*58 Wellness Check
+*59 Emerge From His Chrysalis
+5A Pretend To Be A DJ
