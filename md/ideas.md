@@ -1,4 +1,17 @@
-# ideas
+# ideas.md
+These are some random ideas that have popped into my head.
+
+## Software ideas
+* Reimplement z/OS 2.1
+  * In progress
+* Port OBS to the s390x computing architecture
+  * What would this take?
+    * Dependencies on audio/video libraries
+    * Dependencies on Windowsing system
+    * What else?
+  * I reached out to Igor Todoaoroaksdaski
+    * Maybe he can get me pointed in the right direction
+  * [The code is here](https://github.com/obsproject/obs-studio)
 
 ## Stream ideas
 * [Go through zxplore](https://www.ibm.com/z/resources/zxplore)
