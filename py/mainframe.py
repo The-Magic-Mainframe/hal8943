@@ -22,7 +22,7 @@ h = ('alive!',) * 100 + \
   ('dead.',) * 666 + \
   ('grapes.',) * 666 + \
   ('cooked.',) * 100 + \
-  ('Nicholas Aaron Becker',) * 10 \
+  ('Nicholas Aaron Becker',) * 10 + \
   ('akane.',) * 10 + \
   ('sableraven.',) * 10 + \
   ('KingArvind',) * 10 + \
