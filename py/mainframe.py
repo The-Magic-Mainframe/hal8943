@@ -18,10 +18,15 @@ import random
 import time
 
 # choices
-h = ('alive!',) * 10 + \
-  ('dead.',) * 100 + \
+h = ('alive!',) * 100 + \
+  ('dead.',) * 666 + \
   ('grapes.',) * 666 + \
-  ('cooked.',) * 100
+  ('cooked.',) * 100 + \
+  ('Nicholas Aaron Becker',) * 10 \
+  ('akane.',) * 10 + \
+  ('sableraven.',) * 10 + \
+  ('KingArvind',) * 10 + \
+  ('PeterRelson050',) * 10
 
 # loop forever
 while 1:
