@@ -12,6 +12,8 @@ These are some random ideas that have popped into my head.
   * I reached out to Igor Todoaoroaksdaski
     * Maybe he can get me pointed in the right direction
   * [The code is here](https://github.com/obsproject/obs-studio)
+* Make my own Nightbot
+  * `$XKCD` command
 
 ## Stream ideas
 * [Go through zxplore](https://www.ibm.com/z/resources/zxplore)
