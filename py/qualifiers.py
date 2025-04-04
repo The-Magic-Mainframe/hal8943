@@ -101,19 +101,19 @@ def pattern_to_regexp(quals):
 
 def negated_regexp(regexp):
   """
-  Negate the given regular expression.
+  Negate the given regular expression. Use a negative lookahead, probably.
   """
   raise NotImplementedError()
 
 def regexp_to_pattern(regexp):
   """
-  Convert the input regular expression to an equivalent pattern.
+  Convert the input regular expression to an equivalent pattern. ???
   """
   raise NotImplementedError()
 
 class Tests(unittest.TestCase):
   """
-  Unit tests.
+  Here are the unit tests.
   """
   def test1(self):
     p1 = 'AB.CD'
