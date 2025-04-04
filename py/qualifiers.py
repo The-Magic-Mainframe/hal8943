@@ -42,7 +42,7 @@ def specific_pattern(pattern1, pattern2):
   negated1 = negated_regexp(regexp1)
   negated2 = negated_regexp(regexp2)
 
-  # intersect the negated regular expressions
+  # intersect the regular expressions by joining the complements (De Morgan!!!)
   intersection = f'({negated1}|{negated2})'
 
   # compile the intersected regular expression
@@ -58,7 +58,19 @@ def pattern_to_regexp(pattern):
   """
   Convert the input pattern to an equivalent regular expression.
   """
-  return ""
+  raise NotImplementedError()
+
+def negated_regexp(regexp):
+  """
+  Negate the given regular expression.
+  """
+  raise NotImplementedError()
+
+def regexp_to_patterN(regexp):
+  """
+  Convert the input regular expression to an equivalent pattern.
+  """
+  raise NotImplementedError()
 
 class Tests(unittest.TestCase):
   """
