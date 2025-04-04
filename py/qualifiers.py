@@ -35,9 +35,30 @@ def specific_pattern(pattern1, pattern2):
     assert c in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$-*'
 
   # convert patterns to regular expressions
+  regexp1 = pattern_to_regexp(pattern1)
+  regexp2 = pattern_to_regexp(pattern2)
+
+  # negate (complement) the regular expressions
+  negated1 = negated_regexp(regexp1)
+  negated2 = negated_regexp(regexp2)
+
+  # intersect the negated regular expressions
+  intersection = f'({negated1}|{negated2})'
+
+  # compile the intersected regular expression
+  compiled = re.compile(intersection)
+
+  # convert the compiled regular expression into pattern language
+  result = regexp_to_pattern(compiled)
 
   # return
   return result
+
+def pattern_to_regexp(pattern):
+  """
+  Convert the input pattern to an equivalent regular expression.
+  """
+  return ""
 
 class Tests(unittest.TestCase):
   """
