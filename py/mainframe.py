@@ -39,7 +39,9 @@ while 1:
   for c in s:
     print(c, end='', flush=True)
     r = random.randint(1, 12)
-    time.sleep(r / 360.0)
+    time.sleep(r / 720.0)
+
+  # rest
   r = random.randint(1, 12)
-  time.sleep(r / 6.0)
+  time.sleep(r / 36.0)
   print()
